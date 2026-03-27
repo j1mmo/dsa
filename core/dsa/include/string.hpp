@@ -72,6 +72,7 @@ struct string {
     
     return *this;
   }
+  
   constexpr string(const string& other) :
     _size(other._size),
     _small_storage(other._small_storage) {

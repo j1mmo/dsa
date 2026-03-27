@@ -6,7 +6,7 @@ const string s("hello world");
 TEST(string, string_copy) {
   string s2("hello my name is jeff");
   string s3 = s2;
-  EXPECT_EQ(s2.data(), s3.data());
+  EXPECT_NE(s2.data(), s3.data());
   EXPECT_EQ(s2.size(), s3.size());
 }
 

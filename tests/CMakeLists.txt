@@ -12,7 +12,8 @@ add_library(GTest::GTest INTERFACE IMPORTED)
 target_link_libraries(GTest::GTest INTERFACE gtest_main)
 
 add_executable(dsa_tests
-	string_test.cpp)
+	string_test.cpp
+	array_test.cpp)
 
 target_link_libraries(dsa_tests PRIVATE GTest::GTest dsa)
 
