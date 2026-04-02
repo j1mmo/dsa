@@ -8,9 +8,9 @@
 
 template<typename _class_type>
 struct darray {
-  _class_type* _data;
-  uint32_t _size;
-  uint32_t _capacity;
+  _class_type* _data{nullptr};
+  uint32_t _size{0};
+  uint32_t _capacity{0};
 
   using _class_type_ref = _class_type&;
   using _class_type_const_ref = const _class_type&;
@@ -29,20 +29,13 @@ struct darray {
   constexpr darray() = default;
   template<uint32_t cArrayLength>
   constexpr darray(_class_type (&cArray)[cArrayLength]) {
-    //static_assert(cArrayLength <= _size);
 
-    if (_data == nullptr) {
-	alloc(cArrayLength);
-    }
-    
-    for (uint32_t counter{0}; counter < cArrayLength; ++counter) {
+    alloc(cArrayLength);
+    uint32_t counter{0};
+    for (; counter < cArrayLength; ++counter) {
 	_data[counter] = cArray[counter];
     }
-    _size = cArrayLength;
-
-    for (uint32_t i = cArrayLength; i < _size; i++) {
-	_data[i] = _class_type{};
-    }
+    _size = counter;
   }
 
   constexpr _class_type operator[](uint32_t index) const {
@@ -81,6 +74,10 @@ struct darray {
     return _size;
   }
 
+  ~darray() {
+    free(_data);
+  }
+
 private:
 
   constexpr void alloc(uint32_t newLength) {
@@ -106,7 +103,7 @@ private:
     }
   }
 
-
+  
 };
 
 #endif // DARRAY_HPP
