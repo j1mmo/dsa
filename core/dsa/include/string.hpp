@@ -25,10 +25,15 @@ struct string {
   uint32_t _size = 0;
   bool _small_storage = true;
 
-  
   constexpr string::allocated_storage alloc(uint32_t length, const char * data) {
     auto* alloced = static_cast<char*>(malloc(length + 1));
     strcpy(data, length, alloced);
+    return {alloced, length};
+  }
+
+  constexpr string::allocated_storage alloc(uint32_t length) {
+    auto* alloced = static_cast<char*>(malloc(length + 1));
+    fill(' ');
     return {alloced, length};
   }
 
@@ -39,7 +44,7 @@ struct string {
   }
 
   constexpr string() = default;
-  constexpr string(const char *data)
+  constexpr string(const char* data)
     : _size{length(data)}
   {
     if (_size < sizeof(small_storage)) {
@@ -60,6 +65,37 @@ struct string {
     assert(index < _size);
     char* ptr = data();
     return ptr[index];
+  }
+
+  constexpr bool operator==(const char * other) const {
+    const int otherSize = length(other);
+     if (otherSize != size()) {
+	return false;
+    }
+    int counter{0};
+    const char * dataPtr = data();
+    for(; counter < _size; counter++) {
+	if (other[counter] != dataPtr[counter]) {
+	    return false;
+	}
+	counter++;
+    }
+    return true;
+  }
+
+  constexpr bool operator==(const string& other) const {
+    if (other.size() != size()) {
+	return false;
+    }
+    int counter{0};
+    const char * dataPtr = data();
+    for(;counter < _size; counter++) {
+	if (other[counter] != dataPtr[counter]) {
+	    return false;
+	}
+	counter++;
+    }
+    return true;
   }
 
   string& operator=(const string& other) {
@@ -84,6 +120,22 @@ struct string {
 	_storage._alloc = {ptr, other._storage._alloc._capacity};
     }
   }
+
+  constexpr char* begin() {
+    return data();
+  }
+
+  constexpr char* end() {
+    return data() + _size;
+  }
+
+  constexpr const char* begin() const {
+    return data();
+  }
+
+  constexpr const char* end() const {
+    return data() + _size;
+  }
   
   [[nodiscard]] constexpr char* data() noexcept {
     if (_small_storage) {
@@ -103,6 +155,53 @@ struct string {
 
   constexpr const uint32_t size() const {
     return _size;
+  }
+
+  [[nodiscard]] static string toString(int32_t value) {
+    const int sign = value < 0;
+
+    if (sign < 0) {
+	value *= -1;
+    }
+
+    //handle zero case
+    if (value == 0) {
+	return string("0");
+    }
+    //shouldn't exceed this
+    char storage[64]{'\0'};
+    int storageLength{0};
+    
+    while(value) {
+	int digit = value % 10;
+	storage[storageLength] = digit + '0';
+	storageLength += 1;
+	value /= 10;
+    }
+
+    string s(storage);
+
+    int start{0};
+
+    if (sign) {
+	start += 1;
+	s[0] = '-';
+    }
+    
+    storageLength -= 1; // get the final index
+    for(; start < s.size(); start++, storageLength--) {
+	s[start] = storage[storageLength];
+    }
+    
+    return s;
+  }
+
+  constexpr void fill(const char c) {
+    const int s = size();
+    char * d = data();
+    for(int i = 0; i < s; i++) {
+        d[i] = c;
+    }
   }
 
   constexpr char* strcpy(char* destination, const char* source) {
@@ -150,7 +249,7 @@ struct string {
     return destination;
   }
   
-  constexpr uint32_t length(const char * string) {
+  static uint32_t length(const char * string) {
     uint32_t counter{0};
     for(; string[counter] != '\0'; counter++) {}
     return counter;

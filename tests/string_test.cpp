@@ -3,6 +3,7 @@
 
 const string s("hello world");
 
+
 TEST(string, string_copy) {
   string s2("hello my name is jeff");
   string s3 = s2;
@@ -26,4 +27,29 @@ TEST(string, indexing) {
 
 TEST(string, string_size) {
   EXPECT_EQ(s.size(), 11);
+}
+
+TEST(string, number_to_string) {
+  string a = string::toString(123);
+  string b = string::toString(12);
+  string c = string::toString(1);
+  string d = string::toString(0);
+
+  string am = string::toString(-123);
+  string bm = string::toString(-12);
+  string cm = string::toString(-1);
+  string dm = string::toString(0);
+
+  EXPECT_EQ(a.size(), 3);
+  EXPECT_STREQ(a.data(), "123");
+  EXPECT_STREQ(b.data(), "12");
+  EXPECT_STREQ(c.data(), "1");
+  EXPECT_STREQ(d.data(), "0");
+  
+  EXPECT_STREQ(am.data(), "-123");
+  EXPECT_STREQ(bm.data(), "-12");
+  EXPECT_STREQ(cm.data(), "-1");
+  EXPECT_STREQ(dm.data(), "0");
+
+  
 }
