@@ -41,7 +41,7 @@ struct array {
   }
 
   constexpr _class_type operator[](uint32_t index) const {
-    static_assert(index < _size);
+    assert(index < _size);
     return _data[index];
   }
 
@@ -74,6 +74,7 @@ struct array {
   constexpr uint32_t size() const {
     return _size;
   }
+
 };
 
 #endif // ARRAY_HPP
