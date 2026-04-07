@@ -70,6 +70,15 @@ struct darray {
     }
   }
 
+  void push(_class_type_const_ref newItem) {
+    
+    if (_size > _capacity || (_capacity == 0)) {
+	//if zero set to 2
+	realloc(_capacity ? _capacity * 2 : 2);
+    }
+    _data[_size++] = newItem;
+  }
+
   constexpr uint32_t size() const {
     return _size;
   }

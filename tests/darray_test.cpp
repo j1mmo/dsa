@@ -46,4 +46,14 @@ TEST(darray, for_loop) {
   }
 }
 
+TEST(darray, push) {
+  darray<int> arr;
+  for (int i = 0; i < 5; i++) {
+      arr.push(i);
+  }
+  for (int i = 0; i < 5; i++) {
+      EXPECT_EQ(arr[i], i);
+  }
+}
+
 
