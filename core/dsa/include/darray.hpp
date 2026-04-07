@@ -72,7 +72,7 @@ struct darray {
 
   void push(_class_type_const_ref newItem) {
     
-    if (_size > _capacity || (_capacity == 0)) {
+    if (_size >= _capacity) {
 	//if zero set to 2
 	realloc(_capacity ? _capacity * 2 : 2);
     }
@@ -84,7 +84,9 @@ struct darray {
   }
 
   ~darray() {
-    free(_data);
+    if (_data == nullptr) {
+	free(_data);
+    }
   }
 
 private:
