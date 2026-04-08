@@ -2,9 +2,9 @@
 #define DARRAY_HPP
 
 #include <initializer_list>
-#include <cassert>
 
-#include <iostream>
+#include <cstdint>
+#include <cassert>
 
 template<typename _class_type>
 struct darray {
