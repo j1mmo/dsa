@@ -4,6 +4,7 @@
 #include <initializer_list>
 
 #include <cstdint>
+#include <cstdlib>
 #include <cassert>
 
 template<typename _class_type>
