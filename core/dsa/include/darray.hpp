@@ -83,7 +83,7 @@ struct darray {
     return _size;
   }
 
-  ~darray() {
+  void clean() {
     if (_data == nullptr) {
 	free(_data);
     }
