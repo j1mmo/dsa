@@ -71,6 +71,17 @@ struct darray {
     }
   }
 
+  constexpr void reserve(uint32_t length) const {
+    if (length < _capacity) {
+	return ;
+    }
+    if (_data == nullptr) {
+	alloc(length);
+    } else {
+	realloc(length);
+    }
+  }
+
   void push(_class_type_const_ref newItem) {
     
     if (_size >= _capacity) {
@@ -85,7 +96,7 @@ struct darray {
   }
 
   void clean() {
-    if (_data == nullptr) {
+    if (_data != nullptr) {
 	free(_data);
     }
   }

@@ -93,7 +93,6 @@ struct string {
 	if (other[counter] != dataPtr[counter]) {
 	    return false;
 	}
-	counter++;
     }
     return true;
   }
@@ -181,17 +180,12 @@ struct string {
 
     string s(storage);
 
-    int start{0};
-
-    if (sign) {
-	start += 1;
-	s[0] = '-';
-    }
     
     storageLength -= 1; // get the final index
-    for(; start < s.size(); start++, storageLength--) {
+    for(int start{0}; start < s.size(); start++, storageLength--) {
 	s[start] = storage[storageLength];
     }
+    
     
     return s;
   }
