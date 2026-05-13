@@ -3,6 +3,7 @@
 
 #include <initializer_list>
 #include <cassert>
+#include <cstdint>
 
 template<typename _class_type, uint32_t _size>
 struct array {
@@ -47,6 +48,10 @@ struct array {
 
   constexpr _class_type_ref operator[](uint32_t index) {
     return _data[index];
+  }
+
+  constexpr _class_type_ptr data() {
+    return _data;
   }
 
   constexpr _class_type_ptr begin() {
